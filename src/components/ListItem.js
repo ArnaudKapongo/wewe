@@ -1,58 +1,49 @@
 import React, {useState, useEffect, useReducer } from 'react';
 import '../App.css';
-import arnaud from '../assets/arnaud.jpeg';
-import alexis from '../assets/alexis.jpeg';
-import {v4 as uuidv4 } from 'uuid';
 import { useHistory } from "react-router-dom";
+import firebase from './firebase/firebase';
+import { db } from './firebase/firebase';
+import { collection, getDocs } from "firebase/firestore";
+
 
 const ListItem = () => {
 
-    const [consultants, setConsultants] = useState([
-        { name: 'Arnaud', surname: 'Kapongo', statut: 'Développeur web', notation: [], id: uuidv4(), avatar: arnaud  },
-        { name: 'Alexis', surname: 'Averty', statut: 'Développeur mobile', notation: [], id: uuidv4(), avatar: arnaud  }
-    ]); 
+  const usersCollectionRef = collection(db, "consultants");
 
-    /*const [consultants, dispatch] = useReducer( [], () => {
+  const [consultants, setConsultants ] = useState([]);  
 
-        const localData = localStorage.getItem('consultants');
-        return localData ? JSON.parse(localData) : []
-    });*/
 
-    const history = useHistory();
+   const history = useHistory();
 
     useEffect(() => {
-        localStorage.setItem('consultants', JSON.stringify(consultants))
-    }, [consultants])
+      const getUsers = async () => {
+        const data = await getDocs(usersCollectionRef);
+        setConsultants(data.docs.map((doc) => ({
 
-
-    useEffect(() => {
-
-    }, )
+        ...doc.data(), id: doc.id })))
+        };
+    getUsers();  
+    }, [consultants]) 
 
     return(
         <>
-        <div
-        className='container-row' onClick={() => history.push("/rating") }>
+      
+      {consultants.map((consultant) => {
+
+        return (
+        <div className='container-row' onClick={() => history.push("/rating")}>
         <div className="container-item">
-          <img className="image" src={arnaud} alt=""/>
-          <div className="row-description">
-            <p className="alexis">Arnaud Kapongo</p>
-            <p>Développeur web</p>
-          </div>
-        </div>
+            <img className="image" src={consultant.image} alt={consultant.name} />
+            <div className="row-description">
+              <p className="ajustText">{consultant.name} {consultant.surname}</p>
+              <p>{consultant.status}</p>
+            </div>
+        </div> 
         
-      </div>
-      <div
-        className='container-row' onClick={() => history.push("/rating")}>
-        <div className="container-item">
-          <img className="image" src={alexis} alt=""/>
-          <div className="row-description">
-            <p className="alexis">Alexis Averty</p>
-            <p>Développeur mobile</p>
-          </div>
-        </div>
-        
-      </div>
+        </div>        
+        )
+    }     )
+}
       
 
     

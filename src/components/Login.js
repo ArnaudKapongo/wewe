@@ -5,12 +5,14 @@ import { useHistory } from "react-router-dom";
 import firebase from './firebase/firebase';
 import { db } from './firebase/firebase';
 import { collection, getDocs } from "firebase/firestore";
+import { signup, login, logout, useAuth } from './firebase/firebase';
+import wemoov from '../assets/wemoov.png';
 
 const Login = () => {  
 
-   {/* const usersCollectionRef = collection(db, "users");
+    const usersCollectionRef = collection(db, "consultants");
 
-    const [users, setUsers ] = useState([]);  */}
+    const [users, setUsers ] = useState([]);  
 
 
     const [formData, setFormData] = useState({
@@ -26,13 +28,13 @@ const Login = () => {
 
     useEffect(() => {
 
-       /* const getUsers = async () => {
+        const getUsers = async () => {
             const data = await getDocs(usersCollectionRef);
-            setFormData(data.docs.map((doc) => ({
+            setUsers(data.docs.map((doc) => ({
 
             ...doc.data(), id: doc.id })))
         };
-        getUsers();  */
+        getUsers();  
     }, [])
 
     const onSubmit = (e) => {
@@ -59,12 +61,13 @@ const Login = () => {
     }}>
    
     
-       {/* {users.map((user) => {
+     {/*   {users.map((user) => {
 
             return (
             <div>
             <h1>Name: {user.name}</h1>
-            <h1>Age: {user.age}</h1>
+            <h1>Surname: {user.surname}</h1>
+            <img src={user.image} />
             </div>        
                 )
         })
@@ -78,9 +81,7 @@ const Login = () => {
             alignItems: 'center'
         }}>
             <form onSubmit={onSubmit}>
-            <Typography variant="h4">
-                Login
-            </Typography>
+              <img src={wemoov} alt={wemoov} className="wemoovimage"/>
             <TextField
                 name="email"
                 value={email}

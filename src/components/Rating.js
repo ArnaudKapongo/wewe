@@ -63,7 +63,7 @@ const Rating = () => {
     const onSubmit = (e) => {
         e.preventDefault();
         localStorage.setItem(formData, 'rating');
-      alert('La notation a bien été prise en compte');
+       alert('La notation a bien été prise en compte');
        setRatingcom(null);
        setRatingaut(null);
        setRatingstr(null);

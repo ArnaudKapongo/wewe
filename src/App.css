@@ -155,7 +155,7 @@ select {
   display: flex;
   justify-content: space-around;
 }
-.alexis {
+.ajustText {
   text-align: left;
 }
 .back {
@@ -164,4 +164,9 @@ select {
   margin-left: 15px;
   margin-top: 10px;
   color: hsl(180, 29%, 50%);
+}
+
+.wemoovimage {
+  display: block;
+  margin: 0 auto;
 }
